@@ -31,7 +31,7 @@ const App = () => {
     setEditIndex(null);
   };
 
-  // Delete item
+  // Delete item  
   const deleteItem = (index) => {
     const filteredTodos = todos.filter((_, i) => i !== index);
     setTodos(filteredTodos);

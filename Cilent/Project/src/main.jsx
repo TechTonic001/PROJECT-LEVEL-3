@@ -7,7 +7,7 @@ import App from './App.jsx'
 
 
 const router = createBrowserRouter([
-  {path: '/Todo', element: <App />}
+  {path: '/', element: <App />}
 ])
 
 createRoot(document.getElementById('root')).render(
