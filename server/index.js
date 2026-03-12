@@ -12,32 +12,33 @@ const port = process.env.PORT;
 // if you change it, make sure the name here matches exactly.
 const MONGO_URI = process.env.URI || process.env.MONGO_URI;
 
-let users = [];
+// let users = [];
 
-app.get('/signup', (req, res) => {
-    res.render('signup')
-})
+// app.get('/signup', (req, res) => {
+//     res.render('signup')
+// })
 
-app.post('/confirm', (req, res) => {
-    const { username, email, password } = req.body;
-    users.push({ username, email, password });
-    console.log(users);
-    res.send('Sign up successful')
-})
+// app.post('/confirm', (req, res) => {
+//     const { username, email, password } = req.body;
+//     users.push({ username, email, password });
+//     console.log(users);
+//     res.send('Sign up successful')
+// })
 
-// login
-app.get('/login', (req, res) => {
-    res.render('login')
-})
-app.post('/enter', (req, res) => {
-    const { username, password } = req.body;
-    const user = users.find(u => u.username === username && u.password === password);
-    if (user) {
-        res.send('Login successful')
-    } else {
-        res.send('Invalid credentials')
-    }
-})
+// // login
+// app.get('/login', (req, res) => {
+//     res.render('login')
+// })
+// app.post('/enter', (req, res) => {
+//     const { username, password } = req.body;
+//     const user = users.find(u => u.username === username && u.password === password);
+//     if (user) {
+//         res.send('Login successful')
+//     } else {
+//         res.send('Invalid credentials')
+//     }
+// })
+
 
 
 

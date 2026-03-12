@@ -13,7 +13,7 @@ function Signup() {
       })}
       onSubmit={async (values, { setSubmitting }) => {
         try {
-          await axios.post("http://localhost:5000/auth/signup", values);
+          await axios.post("http://localhost:5630/auth/signup", values);
           alert("Signup successful!");
         } catch (err) {
           alert(err.response?.data?.error || "Signup failed");
