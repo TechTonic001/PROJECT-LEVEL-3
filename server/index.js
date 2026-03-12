@@ -6,10 +6,14 @@ require('dotenv').config();
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
+const cors = require('cors');
+app.use(cors());
+const authRoutes = require('./router/user.route');
+app.use('/api/auth', authRoutes);
+app.use(express.json());
+
 
 const port = process.env.PORT;
-// you can rename the variable in your .env file to MONGO_URI or keep using URI.
-// if you change it, make sure the name here matches exactly.
 const MONGO_URI = process.env.URI || process.env.MONGO_URI;
 
 // let users = [];
