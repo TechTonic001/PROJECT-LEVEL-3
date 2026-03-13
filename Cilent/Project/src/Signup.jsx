@@ -22,7 +22,7 @@ const Signup = () => {
         }
         setError(null);
         setMessage(null)
-        setLoading(true); 
+        setLoading(true);
         try {
             const userData = { username, email, password }
             const response = await axios.post(API_URL, userData)
