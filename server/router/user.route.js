@@ -1,10 +1,24 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const User = require("../models/User")
 const saltRounds = 10;
+const User = require("../Models/User"); 
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
+
+// auth midle
+const authenticateToken = (req, res, next) => {
+    const tokens = req.header('Authorization')?.replace('Bearer ', '');
+    if (!tokens) return res.status(401).json({ message: 'Access denied' });
+
+    try {
+        const verified = jwt.verify(tokens, process.env.JWT_SECRET);
+        req.user = verified;
+        next();
+    } catch (err) {
+        res.status(400).json({ message: 'Invalid token' });
+    }
+};
 
 // Signup
 router.post("/signup", async (req, res) => {
@@ -32,7 +46,28 @@ router.post("/signin", async (req, res) => {
         if (!isMatch) return res.status(400).json({ message: "Password is not correct" });
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.json({ token, user: { id: user._id, username: user.username, email: user.email } });
+        res.json({ token, user: { id: user._id, username: user.username, email: user.email, todos: user.todos } });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Get
+router.get("/todos", authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        res.json({ todos: user.todos });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// update
+router.put("/todos", authenticateToken, async (req, res) => {
+    try {
+        const { todos } = req.body;
+        await User.findByIdAndUpdate(req.user.id, { todos });
+        res.json({ message: "Todos updated successfully" });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
