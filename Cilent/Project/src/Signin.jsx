@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './Signin.css';
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5630/api/auth/signin';
 import { toast } from 'react-toastify';
 
@@ -39,88 +40,67 @@ function SignIn() {
             });
     }
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-                <div className="text-center">
-                    <h1 className="text-3xl font-bold text-gray-900">
-                        Welcome Back
-                    </h1>
-                    <p className="mt-2 text-gray-600">
-                        Sign in to manage your finances.
-                    </p>
+        <div className="signin-container">
+            <div className="signin-card">
+                <div className="signin-header">
+                    <h1>Welcome Back</h1>
+                    <p>Sign in to manage your todos.</p>
                 </div>
-                <div className="space-y-6">
-                    <div>
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            Email
-                        </label>
+                <form className="signin-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
                         <input
+                            id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             name="email"
                             type="email"
                             autoComplete="email"
                             placeholder="Enter your email"
-                            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         />
                     </div>
-                    <div>
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            Password
-                        </label>
-                        <div className="relative mt-1">
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <div className="password-wrapper">
                             <input
+                                id="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 name="password"
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder="Enter your password"
-                                className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                             />
-
-                            <Eye
+                            <button
+                                type="button"
+                                className="password-toggle"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className={`absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 cursor-pointer ${!showPassword ? 'block' : 'hidden'}`}
-                                aria-hidden="true"
-                            />
-                            <EyeOff
-                                onClick={() => setShowPassword(!showPassword)}
-                                className={`absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 cursor-pointer ${showPassword ? 'block' : 'hidden'}`}
-                                aria-hidden="true"
-                            />
+                                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                            >
+                                {!showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                            </button>
                         </div>
                     </div>
-                    <div>
-                        <button
-                            onClick={handleSubmit}
-                            disabled={loading}
-                            className={`w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                                ${loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}
-                            `}
-                        >
-                            {loading ? (
-                                <div className="flex items-center justify-center gap-2">
-                                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                                    Signing in...
-                                </div>
-                            ) : (
-                                'Sign In'
-                            )}
-                        </button>
-                    </div>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="signin-btn"
+                    >
+                        {loading ? (
+                            <>
+                                <span className="spinner"></span>
+                                Signing in...
+                            </>
+                        ) : (
+                            'Sign In'
+                        )}
+                    </button>
+                </form>
+                <div className="signin-footer">
+                    <p>
+                        Don't have an account?{' '}
+                        <Link to='/signup'>Sign Up</Link>
+                    </p>
                 </div>
-                <p className="text-center text-sm text-gray-600">
-                    Don't have an account?{' '}
-                    <Link to='/signup' className="font-medium text-blue-600 hover:text-blue-500">
-                        Sign Up
-                    </Link>
-                </p>
             </div>
         </div>
     );

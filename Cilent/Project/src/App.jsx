@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import './App.css';
+
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5630/api/auth';
 
@@ -37,7 +39,7 @@ const App = () => {
     fetchTodos();
   }, [navigate]);
 
-  // Save todos to server
+  // Save
   const saveTodos = async (newTodos) => {
     const take = localStorage.getItem('token');
     try {
@@ -60,13 +62,13 @@ const App = () => {
     setItem('');
   };
 
-  // Start editing
+  // edit
   const editItem = (index) => {
     setItem(todos[index]);
     setEditIndex(index);
   };
 
-  // Update item
+  // Update
   const updateItem = () => {
     if (item.trim() === '') return;
 
@@ -79,7 +81,7 @@ const App = () => {
     setEditIndex(null);
   };
 
-  // Delete item  
+  // Delete 
   const deleteItem = (index) => {
     const filteredTodos = todos.filter((_, i) => i !== index);
     setTodos(filteredTodos);
@@ -94,27 +96,38 @@ const App = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   return (
-    <div>
-      <button onClick={handleLogout} style={{ position: 'absolute', top: 10, right: 10 }}>
+    <div className="app-container">
+      <button className="logout-btn" onClick={handleLogout}>
         Logout
       </button>
-      <input type="text" placeholder="Enter your items" value={item} onChange={(e) => setItem(e.target.value)} />
-      {editIndex === null ? (
-        <button onClick={addItem}>Add item</button>
-      ) : (
-        <button onClick={updateItem}>Update</button>
-      )}
+      <h1 className="app-title">Todo List</h1>
+      <div className="input-section">
+        <input
+          type="text"
+          className="todo-input"
+          placeholder="Enter your items"
+          value={item}
+          onChange={(e) => setItem(e.target.value)}
+        />
+        {editIndex === null ? (
+          <button className="add-btn" onClick={addItem}>Add item</button>
+        ) : (
+          <button className="update-btn" onClick={updateItem}>Update</button>
+        )}
+      </div>
 
-      <ul>
+      <ul className="todo-list">
         {todos.map((todo, index) => (
-          <li key={index} style={{ listStyle: 'none' }}>
-            {todo}
-            <button onClick={() => editItem(index)}>Edit</button>
-            <button onClick={() => deleteItem(index)}>Delete</button>
+          <li key={index} className="todo-item">
+            <span className="todo-text">{todo}</span>
+            <div className="todo-actions">
+              <button className="edit-btn" onClick={() => editItem(index)}>Edit</button>
+              <button className="delete-btn" onClick={() => deleteItem(index)}>Delete</button>
+            </div>
           </li>
         ))}
       </ul>
