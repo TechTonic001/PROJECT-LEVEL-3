@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 const Signup = () => {
     const [username, setName] = useState("");
@@ -20,17 +21,19 @@ const Signup = () => {
         }
         setError(null);
         setMessage(null)
-        setLoading(true); x`xxx`
+        setLoading(true); 
         try {
             const userData = { username, email, password }
             const response = await axios.post(API_URL, userData)
             localStorage.setItem("token", response.data.token);
-            setMessage(response?.data?.message || "Signup successful!")
+            toast.success(response?.data?.message || "Signup successful!")
             navigate('/login')
         } catch (error) {
             setLoading(false);
-            console.log(error.response?.data?.message || "Signup failed!");
-            setError(error.response?.data?.message || "Signup failed!");
+            const message = error.response?.data?.message || "Signup failed!";
+            console.log(message);
+            setError(message);
+            toast.error(message);
         }
         setLoading(false)
     };
