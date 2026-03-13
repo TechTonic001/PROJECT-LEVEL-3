@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Signup() {
   return (
@@ -34,6 +35,9 @@ function Signup() {
           <div>
             <input name="password" type="password" placeholder="Password" />
             <ErrorMessage name="password" component="div" style={{ color: "red" }} />
+          </div>
+          <div>
+            <p>Already have account? <Link to="/signin">Login</Link></p>
           </div>
           <button type="submit" disabled={isSubmitting}>Signup</button>
         </Form>

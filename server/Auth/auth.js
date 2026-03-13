@@ -1,8 +1,8 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// use correct lowercase directory name
-const User = require("../models/User");
+
+
 
 const router = express.Router();
 

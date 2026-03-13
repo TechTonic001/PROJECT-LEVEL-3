@@ -8,9 +8,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 const cors = require('cors');
 app.use(cors());
+
+
+app.use(express.json());
+
 const authRoutes = require('./router/user.route');
 app.use('/api/auth', authRoutes);
-app.use(express.json());
 
 
 const port = process.env.PORT;
